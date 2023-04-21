@@ -3,7 +3,7 @@ from typing import List
 from sqlalchemy.orm import joinedload
 
 from in_use_py.base_collection import BaseDAO
-from in_use_py.model import Category, Device
+from in_use_py.model import Category, Device, TaskTemplate
 
 
 class CategoryDao(BaseDAO):
@@ -57,3 +57,11 @@ class DeviceDao(BaseDAO):
         device = Device(serial=serial, desc=desc, category_id=category_id)
         self.create(device)
 
+
+class TaskTemplateDao(BaseDAO):
+    def __init__(self, engine):
+        super().__init__(TaskTemplate, engine)
+
+    def add_template(self, name: str, struct: dict) -> None:
+        TaskTemplate(name=name, struct=struct)
+        self.create(TaskTemplate)

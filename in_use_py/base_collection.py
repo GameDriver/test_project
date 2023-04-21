@@ -23,12 +23,6 @@ class BaseModel(Base):
     update_at = Column(String, default=datetime.now, onupdate=datetime.now)
     create_at = Column(String, default=datetime.now)
 
-    def __repr__(self):
-        attributes = inspect.getmembers(self, lambda a: not(inspect.isroutine(a)))
-        valid_attrs = [attr for attr in attributes if not(attr[0].startswith('_')) and attr[0] not in ('metadata', 'registry')]
-        attr_str = ', '.join([f"{attr[0]}={attr[1]}" for attr in valid_attrs])
-        return f"<{self.__class__.__name__}({attr_str})>"
-
     def to_dict(self):
         attributes = inspect.getmembers(self, lambda a: not(inspect.isroutine(a)))
         return {attr[0]: attr[1] for attr in attributes if not attr[0].startswith('_')}
