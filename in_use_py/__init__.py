@@ -10,25 +10,23 @@ device_dao = DeviceDao(engine)
 # category_dao = CategoryDao()
 
 if __name__ == '__main__':
-    category_dao.add_cate('typeggg', 'descxxx')
+    cate_dao = CategoryDao(engine)
+    # create a new category
+    cate_dao.add_cate("test_category", "a test category")
 
-    cate = category_dao.query()
-
+    # retrieve a category and print it
+    cate = cate_dao.get_category_with_devices(1)
     print(cate)
 
-    device_dao.add_device('123456789xxx', 'descxxx', 1)
-
-    devices = device_dao.query()
-
+    # retrieve devices associated with the category and print them
+    devices = cate.devices
     print(devices)
 
-    time.sleep(4)
+    cate_list = cate_dao.get_all_category_with_devices()
+    print('cate_list')
+    print(cate_list)
 
-    device = devices[0]
-    device.desc = 's111'
-    device_dao.update(device)
-
-    devices = device_dao.query()
-
-    print(devices)
-
+    device_dao.add_device('test serial', 'my device', cate.id)
+    d = device_dao.read(1)
+    print('test d')
+    print(d)
