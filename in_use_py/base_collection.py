@@ -20,8 +20,8 @@ class BaseModel(Base):
     __abstract__ = True  # 将这个类声明为抽象类
     id = Column(Integer, primary_key=True)
     desc = Column(String, default=None)
-    update_at = Column(String, default=datetime.utcnow, onupdate=datetime.utcnow)
-    create_at = Column(String, default=datetime.utcnow)
+    update_at = Column(String, default=datetime.now, onupdate=datetime.now)
+    create_at = Column(String, default=datetime.now)
 
     def __repr__(self):
         attributes = inspect.getmembers(self, lambda a: not(inspect.isroutine(a)))
