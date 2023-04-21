@@ -42,8 +42,7 @@ class CategoryDao(BaseDAO):
     def get_category_with_devices(self, id) -> Category:
         session = self.Session()
         try:
-            category = session.query(Category).get(id)
-            devices = category.devices  # 在这里访问devices属性
+            category = session.query(Category).options(joinedload(Category.devices)).get(id)
             return category
         finally:
             session.close()
