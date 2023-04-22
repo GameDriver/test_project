@@ -52,17 +52,33 @@ class TaskSet(BaseModel):
     __tablename__ = 'TaskSet'
 
     name = Column(String, nullable=False)
+    in_use = Column(Boolean, default=True)
 
     tasks = relationship("Task", back_populates="template")
 
 
 # 任务计划表
-# class TaskSchedule(BaseModel):
-#     __tablename__ = 'TaskSet'
-#
-#     name = Column(String, nullable=False)
-#
-#     tasks = relationship("Task", back_populates="template")
+class TaskSchedule(BaseModel):
+    __tablename__ = 'TaskSet'
+
+    name = Column(String, nullable=False)
+    in_use = Column(Boolean, default=True)
+
+    tasks = relationship("Task", back_populates="template")
+
+
+class ContentCategory(BaseModel):
+    __tablename__ = 'ContentCategory'
+
+    name = Column(String, nullable=False)
+
+
+class Content(BaseModel):
+    __tablename__ = 'Content'
+
+    name = Column(String, nullable=False)
+    version = Column(Integer, nullable=False, default=1)
+    local_path = Column(String, nullable=False)
 
 
 Base.metadata.create_all(engine)

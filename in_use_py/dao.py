@@ -3,7 +3,7 @@ from typing import List
 from sqlalchemy.orm import joinedload
 
 from in_use_py.base_collection import BaseDAO
-from in_use_py.model import Category, Device, TaskTemplate
+from in_use_py.model import Category, Device, TaskTemplate, Task, TaskSet, TaskSchedule
 
 
 class CategoryDao(BaseDAO):
@@ -65,3 +65,53 @@ class TaskTemplateDao(BaseDAO):
     def add_template(self, name: str, struct: dict) -> None:
         TaskTemplate(name=name, struct=struct)
         self.create(TaskTemplate)
+
+
+class TaskDao(BaseDAO):
+    def __init__(self, engine):
+        super().__init__(Task, engine)
+
+    def add_task(self, name: str, params: dict, template_id: int, task_set_id: int) -> None:
+        session = self.Session()
+        try:
+            template: TaskTemplate = session.query(TaskTemplate).get(template_id)
+            task = Task(name=name, params=params, template_id=template_id, task_set_id=task_set_id, template_version=template.version)
+            session.add(task)
+            session.commit()
+        finally:
+            session.close()
+
+    def query_task_with_joined(self, id: int)-> Task:
+        self.query()
+
+
+class TaskSetDao(BaseDAO):
+    def __init__(self, engine):
+        super().__init__(TaskSet, engine)
+
+    def add_task_set(self, name: str) -> None:
+        session = self.Session()
+        try:
+            task_set = TaskSet(name=name)
+            session.add(task_set)
+            session.commit()
+        finally:
+            session.close()
+
+
+class TaskScheduleDao(BaseDAO):
+    def __init__(self, engine):
+        super().__init__(TaskSchedule, engine)
+
+    def add_task_schedule(self, name: str) -> None:
+        session = self.Session()
+        try:
+            task_schedule = TaskSchedule(name=name)
+            session.add(task_schedule)
+            session.commit()
+        finally:
+            session.close()
+
+    # 联表添加
+
+
