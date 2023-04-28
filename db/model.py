@@ -2,8 +2,8 @@ from sqlalchemy import String, Column, Integer, ForeignKey, Boolean
 from sqlalchemy.dialects.sqlite import JSON
 from sqlalchemy.orm import relationship
 
-from in_use_py.base_collection import BaseModel
-from in_use_py.base_config import Base, engine
+from .base_db import BaseModel
+from .base_config import Base, engine
 
 
 class Category(BaseModel):
